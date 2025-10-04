@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HARPR - Settings</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-blue: #007bff;
+            --secondary-gray: #6c757d;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+            --border-color: #dee2e6;
+            --text-color: #212529;
+            --white: #fff;
+            --success-green: #28a745;
+            --warning-orange: #ffc107;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding-top: 20px;
+        }
+
+        .app-container {
+            display: flex;
+            width: 1200px;
+            min-height: 800px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: var(--dark-gray);
+            color: var(--white);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar .logo {
+            padding: 0 20px 20px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar nav ul li a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--white);
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.2s ease;
+        }
+
+        .sidebar nav ul li a i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .sidebar nav ul li a:hover,
+        .sidebar nav ul li a.active {
+            background-color: #495057;
+            border-left: 4px solid var(--primary-blue);
+            padding-left: 16px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            background-color: var(--light-gray);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .header .user-profile {
+            font-size: 16px;
+            color: var(--secondary-gray);
+        }
+
+        .settings-section {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .settings-section h2 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--dark-gray);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .integration-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .integration-item:last-child {
+            border-bottom: none; /* No border for the last item */
+        }
+
+        .integration-item .details {
+            display: flex;
+            align-items: center;
+        }
+
+        .integration-item .details i {
+            font-size: 30px;
+            color: var(--secondary-gray);
+            margin-right: 15px;
+        }
+        /* Specific icons */
+        .integration-item .details .fa-zendesk { color: #03363D; } /* Zendesk green */
+        .integration-item .details .fa-jira { color: #0052CC; } /* Jira blue */
+
+
+        .integration-item .details .info h3 {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .integration-item .details .info p {
+            font-size: 14px;
+            color: var(--secondary-gray);
+            margin: 5px 0 0;
+        }
+
+        .integration-item .actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-tag {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-connected { background-color: var(--success-green); color: var(--white); }
+        .status-disconnected { background-color: var(--danger-red); color: var(--white); }
+        .status-pending { background-color: var(--warning-orange); color: var(--dark-gray); }
+
+        .btn {
+            padding: 8px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background-color: var(--white);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border-color: var(--primary-blue);
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .btn-disconnect {
+            background-color: var(--danger-red);
+            color: var(--white);
+            border-color: var(--danger-red);
+        }
+        .btn-disconnect:hover {
+            background-color: #c82333;
+            border-color: #c82333;
+        }
+
+        /* FontAwesome for icons */
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+        /* Specific brand icons for Zendesk and Jira */
+        /* Note: FontAwesome v6 includes some brand icons. If not available, use generic square. */
+        .fa-zendesk::before { content: "\f753"; } /* Assuming it's in a FontAwesome v6 style */
+        .fa-jira::before { content: "\f7a9"; } /* Assuming it's in a FontAwesome v6 style */
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="logo">HARPR</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html" aria-label="Dashboard"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li><a href="escalate.html" aria-label="Escalate"><i class="fas fa-share-square"></i> Escalate</a></li>
+                    <li><a href="backlog.html" aria-label="Backlog"><i class="fas fa-tasks"></i> Backlog</a></li>
+                    <li><a href="validation_queue.html" aria-label="Validation Queue"><i class="fas fa-check-square"></i> Validation Queue</a></li>
+                    <li><a href="<settings.html" class="active" aria-label="Settings"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <h1>Settings</h1>
+                <div class="user-profile"><i class="fas fa-user-circle"></i> Admin User</div>
+            </div>
+
+            <div class="settings-section">
+                <h2>Integrations</h2>
+                <div class="integration-item">
+                    <div class="details">
+                        <i class="fab fa-zendesk"></i>
+                        <div class="info">
+                            <h3>Zendesk</h3>
+                            <p>Connect your Zendesk account to receive tickets.</p>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <span class="status-tag status-connected"><i class="fas fa-check-circle"></i> Connected</span>
+                        <button class="btn btn-disconnect">Disconnect</button>
+                    </div>
+                </div>
+                <div class="integration-item">
+                    <div class="details">
+                        <i class="fab fa-jira"></i>
+                        <div class="info">
+                            <h3>Jira</h3>
+                            <p>Connect your Jira instance to create issues.</p>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <span class="status-tag status-pending"><i class="fas fa-hourglass-half"></i> Pending Setup</span>
+                        <button class="btn btn-primary">Connect</button>
+                    </div>
+                </div>
+                <div class="integration-item">
+                    <div class="details">
+                        <i class="fas fa-slack"></i>
+                        <div class="info">
+                            <h3>Slack</h3>
+                            <p>Receive notifications for critical escalations.</p>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <span class="status-tag status-disconnected"><i class="fas fa-exclamation-triangle"></i> Not Connected</span>
+                        <button class="btn">Connect</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h2>Account Settings</h2>
+                <div class="integration-item">
+                    <div class="details">
+                        <i class="fas fa-user-circle"></i>
+                        <div class="info">
+                            <h3>Profile</h3>
+                            <p>Manage your personal information and password.</p>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn">Edit</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Minimal JavaScript for potential future interactions, currently not active for this static page.
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.btn').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const action = event.target.textContent;
+                    const integrationName = event.target.closest('.integration-item').querySelector('h3').textContent;
+                    alert(`${action} for ${integrationName} (placeholder for real action).`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

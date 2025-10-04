@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to HARPR - Your Mediation Platform</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary-blue: #007bff;
+            --secondary-gray: #6c757d;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+            --text-color: #212529;
+            --white: #fff;
+            --gradient-start: #007bff;
+            --gradient-end: #0056b3;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            color: var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .landing-container {
+            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            border-radius: 15px;
+            padding: 50px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .landing-container h1 {
+            font-size: 4em;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--white);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .landing-container h2 {
+            font-size: 2.5em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: var(--light-gray);
+        }
+
+        .landing-container p {
+            font-size: 1.2em;
+            line-height: 1.7;
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .btn-explore {
+            display: inline-block;
+            padding: 15px 40px;
+            background-color: var(--white);
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-size: 1.4em;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-explore:hover {
+            background-color: #e2e6ea; /* Slightly darker white */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-container">
+        <h1>Welcome to HARPR!</h1>
+        <h2>Your Customer-to-Product Platform</h2>
+        <p>
+            HARPR bridges the gap between your customer-facing teams and product development, ensuring
+            no critical context is lost. Streamline feedback, accelerate issue resolution,
+            and build products your customers truly love.
+        </p>
+        <a href="backlog.html" class="btn-explore">Explore Now</a>
+    </div>
+</body>
+</html>

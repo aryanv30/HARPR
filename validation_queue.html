@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HARPR - Validation Queue</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-blue: #007bff;
+            --secondary-gray: #6c757d;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+            --border-color: #dee2e6;
+            --text-color: #212529;
+            --white: #fff;
+            --success-green: #28a745;
+            --danger-red: #dc3545;
+            --info-blue: #17a2b8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding-top: 20px;
+        }
+
+        .app-container {
+            display: flex;
+            width: 1200px;
+            min-height: 800px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: var(--dark-gray);
+            color: var(--white);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar .logo {
+            padding: 0 20px 20px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar nav ul li a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--white);
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.2s ease;
+        }
+
+        .sidebar nav ul li a i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .sidebar nav ul li a:hover,
+        .sidebar nav ul li a.active {
+            background-color: #495057;
+            border-left: 4px solid var(--primary-blue);
+            padding-left: 16px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            background-color: var(--light-gray);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .header .user-profile {
+            font-size: 16px;
+            color: var(--secondary-gray);
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap; /* Allow filters to wrap on smaller screens */
+        }
+
+        .filter-bar .btn,
+        .filter-bar input {
+            padding: 8px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            background-color: var(--white);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-bar .btn:hover {
+            background-color: var(--light-gray);
+            border-color: var(--secondary-gray);
+        }
+        
+        .filter-bar input {
+            min-width: 150px;
+        }
+
+
+        .table-container {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            overflow-x: auto; /* Allow horizontal scrolling for large tables */
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th, .data-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table th {
+            background-color: var(--light-gray);
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--dark-gray);
+            text-transform: uppercase;
+        }
+
+        .data-table td {
+            font-size: 14px;
+            color: var(--text-color);
+        }
+        
+        .data-table tbody tr:hover {
+            background-color: #f1f3f5;
+        }
+
+        .btn-action {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            margin-right: 5px;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-approve {
+            background-color: var(--success-green);
+            color: var(--white);
+        }
+        .btn-approve:hover { background-color: #218838; }
+
+        .btn-reject {
+            background-color: var(--danger-red);
+            color: var(--white);
+        }
+        .btn-reject:hover { background-color: #c82333; }
+        
+        .btn-review {
+            background-color: var(--info-blue);
+            color: var(--white);
+        }
+        .btn-review:hover { background-color: #138496; }
+
+        .priority-tag {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .priority-high { background-color: #fd7e14; color: var(--white); } /* Orange */
+        .priority-medium { background-color: #007bff; color: var(--white); } /* Blue */
+        .priority-low { background-color: #28a745; color: var(--white); } /* Green */
+
+
+        /* FontAwesome for icons */
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="logo">HARPR</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html" aria-label="Dashboard"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li><a href="escalate.html" aria-label="Escalate"><i class="fas fa-share-square"></i> Escalate</a></li>
+                    <li><a href="backlog.html" aria-label="Backlog"><i class="fas fa-tasks"></i> Backlog</a></li>
+                    <li><a href="validation_queue.html" class="active" aria-label="Validation Queue"><i class="fas fa-check-square"></i> Validation Queue</a></li>
+                    <li><a href="settings.html" aria-label="Settings"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <h1>Escalation Validation Queue</h1>
+                <div class="user-profile"><i class="fas fa-user-circle"></i> Jane Smith</div>
+            </div>
+
+            <div class="filter-bar">
+                <button class="btn">Filter by Agent</button>
+                <button class="btn">Filter Priority</button>
+                <button class="btn">Sort By</button>
+                <input type="text" placeholder="Filter by Agent...">
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Ticket ID</th>
+                            <th>Subject</th>
+                            <th>Submitted By</th>
+                            <th>Date</th>
+                            <th>Priority</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Z-9876</td>
+                            <td>User unable to reset password</td>
+                            <td>Rajesh K.</td>
+                            <td>2h ago</td>
+                            <td><span class="priority-high">High</span></td>
+                            <td>
+                                <button class="btn-action btn-review">Review</button>
+                                <button class="btn-action btn-approve">Approve</button>
+                                <button class="btn-action btn-reject">Reject</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>HARPR-1074</td>
+                            <td>Feature request: Dark Mode feedback</td>
+                            <td>Priya S.</td>
+                            <td>3h ago</td>
+                            <td><span class="priority-medium">Medium</span></td>
+                            <td>
+                                <button class="btn-action btn-review">Review</button>
+                                <button class="btn-action btn-approve">Approve</button>
+                                <button class="btn-action btn-reject">Reject</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Z-1002</td>
+                            <td>API key expired error</td>
+                            <td>David L.</td>
+                            <td>1 day ago</td>
+                            <td><span class="priority-high">High</span></td>
+                            <td>
+                                <button class="btn-action btn-review">Review</button>
+                                <button class="btn-action btn-approve">Approve</button>
+                                <button class="btn-action btn-reject">Reject</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Z-1973</td>
+                            <td>Login page UI glitch</td>
+                            <td>Mei L.</td>
+                            <td>2 days ago</td>
+                            <td><span class="priority-low">Low</span></td>
+                            <td>
+                                <button class="btn-action btn-review">Review</button>
+                                <button class="btn-action btn-approve">Approve</button>
+                                <button class="btn-action btn-reject">Reject</button>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>HARPR-1080</td>
+                            <td>New user onboarding feedback</td>
+                            <td>Rajesh K.</td>
+                            <td>2h ago</td>
+                            <td><span class="priority-medium">Medium</span></td>
+                            <td>
+                                <button class="btn-action btn-review">Review</button>
+                                <button class="btn-action btn-approve">Approve</button>
+                                <button class="btn-action btn-reject">Reject</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Minimal JavaScript - can be extended for filtering/sorting functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            // Example: Add basic functionality to "Review" button (e.g., alert for now)
+            document.querySelectorAll('.btn-review').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const row = event.target.closest('tr');
+                    const ticketId = row.cells[0].textContent;
+                    alert(`Reviewing Ticket ID: ${ticketId}`);
+                    // In a real app, this would navigate to a detailed review page.
+                });
+            });
+
+            document.querySelectorAll('.btn-approve').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const row = event.target.closest('tr');
+                    const ticketId = row.cells[0].textContent;
+                    alert(`Approving Ticket ID: ${ticketId}`);
+                    // In a real app, this would trigger an API call to approve and move the ticket.
+                    row.remove(); // Remove row as it's processed
+                });
+            });
+
+            document.querySelectorAll('.btn-reject').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const row = event.target.closest('tr');
+                    const ticketId = row.cells[0].textContent;
+                    const reason = prompt(`Reason for rejecting Ticket ID: ${ticketId}?`);
+                    if (reason) {
+                        alert(`Rejecting Ticket ID: ${ticketId} with reason: ${reason}`);
+                        // In a real app, this would trigger an API call to reject and add reason.
+                        row.remove(); // Remove row as it's processed
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

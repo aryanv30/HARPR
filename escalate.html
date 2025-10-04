@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HARPR - Escalate Ticket</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-blue: #007bff;
+            --secondary-gray: #6c757d;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+            --border-color: #dee2e6;
+            --text-color: #212529;
+            --white: #fff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top to better mimic app layout */
+            min-height: 100vh;
+            padding-top: 20px;
+        }
+
+        .app-container {
+            display: flex;
+            width: 1200px; /* Max width for the app interface */
+            min-height: 800px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: var(--dark-gray);
+            color: var(--white);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar .logo {
+            padding: 0 20px 20px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar nav ul li a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--white);
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.2s ease;
+        }
+
+        .sidebar nav ul li a i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .sidebar nav ul li a:hover,
+        .sidebar nav ul li a.active {
+            background-color: #495057;
+            border-left: 4px solid var(--primary-blue);
+            padding-left: 16px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            background-color: var(--light-gray);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .header .user-profile {
+            font-size: 16px;
+            color: var(--secondary-gray);
+        }
+
+        .form-section {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-section h2 {
+            font-size: 22px;
+            font-weight: 500;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--primary-blue);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        .form-group p {
+            margin: 0;
+            padding: 10px 12px;
+            background-color: var(--light-gray);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+        }
+
+        .form-group textarea,
+        .form-group input[type="file"] {
+            width: calc(100% - 24px); /* Account for padding */
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .form-group input[type="file"] {
+            display: block;
+            padding: 8px 12px; /* Adjusted padding for file input */
+            min-height: auto;
+        }
+
+        .file-list {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: var(--light-gray);
+            border: 1px dashed var(--border-color);
+            border-radius: 4px;
+            min-height: 60px;
+        }
+
+        .file-list p {
+            margin: 5px 0;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            background-color: transparent; /* Override default p style */
+            border: none;
+            padding: 0;
+        }
+        
+        .file-list p i {
+            margin-right: 8px;
+            color: var(--secondary-gray);
+        }
+
+        .form-actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end; /* Align buttons to the right */
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-gray);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background-color: #545b62;
+            box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+        }
+
+        /* FontAwesome for icons */
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="logo">HARPR</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html" aria-label="Dashboard"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li><a href="escalate.html" class="active" aria-label="Escalate"><i class="fas fa-share-square"></i> Escalate</a></li>
+                    <li><a href="backlog.html" aria-label="Backlog"><i class="fas fa-tasks"></i> Backlog</a></li>
+                    <li><a href="validation_queue.html" aria-label="Validation Queue"><i class="fas fa-check-square"></i> Validation Queue</a></li>
+                    <li><a href="settings.html" aria-label="Settings"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <h1>Escalate Zendesk Ticket #12345</h1>
+                <div class="user-profile"><i class="fas fa-user-circle"></i> John Doe</div>
+            </div>
+
+            <div class="form-section">
+                <h2>Original Zendesk Ticket Details</h2>
+                <div class="form-group">
+                    <label>Subject:</label>
+                    <p>Login issue on Chrome</p>
+                </div>
+                <div class="form-group">
+                    <label>Requester:</label>
+                    <p>John Doe (john.doe@example.com)</p>
+                </div>
+                <div class="form-group">
+                    <label>Original Description:</label>
+                    <p>Users are reporting that they cannot log in using Chrome browser. It works fine on Firefox and Safari...</p>
+                </div>
+
+                <h2>Additional Context for Product Team</h2>
+                <div class="form-group">
+                    <label for="internal-notes">Internal Notes:</label>
+                    <textarea id="internal-notes" placeholder="Add additional context, steps to reproduce, or observations here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="attachments">Additional Logs/Attachments:</label>
+                    <input type="file" id="attachments" multiple>
+                    <div class="file-list" id="uploaded-files">
+                        <p><i class="fas fa-file-archive"></i> atpload1.zip</p>
+                        <p><i class="fas fa-image"></i> acreshoot.png</p>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-secondary">Cancel</button>
+                    <button class="btn btn-primary">Submit for Validation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Minimal JavaScript for potential future interactions, currently not active for this static page.
+        // Example: If you wanted to dynamically add uploaded files to the list
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput = document.getElementById('attachments');
+            const fileListDiv = document.getElementById('uploaded-files');
+
+            fileInput.addEventListener('change', (event) => {
+                fileListDiv.innerHTML = ''; // Clear existing
+                for (const file of event.target.files) {
+                    const p = document.createElement('p');
+                    p.innerHTML = `<i class="fas fa-file-alt"></i> ${file.name}`; // Use a generic file icon
+                    fileListDiv.appendChild(p);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

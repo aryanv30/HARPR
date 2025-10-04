@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HARPR - Product Backlog</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-blue: #007bff;
+            --secondary-gray: #6c757d;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+            --border-color: #dee2e6;
+            --text-color: #212529;
+            --white: #fff;
+            --bug-color: #dc3545; /* Red for bug */
+            --feature-color: #28a745; /* Green for feature */
+            --improvement-color: #ffc107; /* Yellow for improvement */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding-top: 20px;
+        }
+
+        .app-container {
+            display: flex;
+            width: 1200px;
+            min-height: 800px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: var(--dark-gray);
+            color: var(--white);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar .logo {
+            padding: 0 20px 20px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar nav ul li a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--white);
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.2s ease;
+        }
+
+        .sidebar nav ul li a i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .sidebar nav ul li a:hover,
+        .sidebar nav ul li a.active {
+            background-color: #495057;
+            border-left: 4px solid var(--primary-blue);
+            padding-left: 16px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 30px;
+            background-color: var(--light-gray);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .header .user-profile {
+            font-size: 16px;
+            color: var(--secondary-gray);
+        }
+
+        .kanban-board {
+            display: flex;
+            gap: 20px;
+            height: calc(100% - 100px); /* Adjust height based on header */
+        }
+
+        .kanban-column {
+            flex: 1;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            min-width: 280px;
+        }
+
+        .kanban-column h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: center;
+            color: var(--dark-gray);
+        }
+
+        .kanban-cards {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 5px; /* For scrollbar */
+        }
+
+        .kanban-card {
+            background-color: var(--light-gray);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: grab;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .kanban-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .kanban-card h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        .kanban-card p {
+            font-size: 14px;
+            color: var(--secondary-gray);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .kanban-card .tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .kanban-card .tag {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .kanban-card .tag.bug {
+            background-color: var(--bug-color);
+            color: var(--white);
+        }
+
+        .kanban-card .tag.feature {
+            background-color: var(--feature-color);
+            color: var(--white);
+        }
+
+        .kanban-card .tag.improvement {
+            background-color: var(--improvement-color);
+            color: var(--dark-gray); /* Darker text for yellow background */
+        }
+        
+        .kanban-card .tag.priority-high {
+            background-color: #ff9800; /* Orange for high priority */
+            color: var(--white);
+        }
+
+        .kanban-card .tag.priority-medium {
+            background-color: #2196f3; /* Blue for medium priority */
+            color: var(--white);
+        }
+
+        .kanban-card .tag.priority-low {
+            background-color: #8bc34a; /* Light green for low priority */
+            color: var(--white);
+        }
+
+        /* FontAwesome for icons */
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="logo">HARPR</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html" aria-label="Dashboard"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li><a href="escalate.html" aria-label="Escalate"><i class="fas fa-share-square"></i> Escalate</a></li>
+                    <li><a href="backlog.html" class="active" aria-label="Backlog"><i class="fas fa-tasks"></i> Backlog</a></li>
+                    <li><a href="validation_queue.html" aria-label="Validation Queue"><i class="fas fa-check-square"></i> Validation Queue</a></li>
+                    <li><a href="settings.html" aria-label="Settings"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <h1>Product Backlog: HARPR</h1>
+                <div class="user-profile"><i class="fas fa-user-circle"></i> John Doe</div>
+            </div>
+
+            <div class="kanban-board">
+                <div class="kanban-column">
+                    <h2>TO DO</h2>
+                    <div class="kanban-cards">
+                        <div class="kanban-card">
+                            <h3>HARPR-101: Login issue on Chrome</h3>
+                            <p>Users cannot log in via Chrome browser. Affects 15% of users. Logs attached from Zendesk ticket.</p>
+                            <div class="tags">
+                                <span class="tag bug">Bug</span>
+                                <span class="tag priority-high">Priority: High</span>
+                            </div>
+                        </div>
+                        <div class="kanban-card">
+                            <h3>HARPR-102: New user onboarding feedback</h3>
+                            <p>Feedback from 3 recent calls indicates confusion on step 3 of onboarding process. Suggested UX changes provided.</p>
+                            <div class="tags">
+                                <span class="tag feature">Feature</span>
+                                <span class="tag priority-medium">Priority: Medium</span>
+                            </div>
+                        </div>
+                        <div class="kanban-card">
+                            <h3>HARPR-103: API integration failure after update</h3>
+                            <p>Specific external API integration is failing for enterprise client X after recent platform update. Urgent.</p>
+                            <div class="tags">
+                                <span class="tag bug">Bug</span>
+                                <span class="tag priority-high">Priority: High</span>
+                            </div>
+                        </div>
+                        <div class="kanban-card">
+                            <h3>HARPR-104: Improve dashboard loading time</h3>
+                            <p>Managers report dashboard takes over 5 seconds to load. Investigate and optimize queries.</p>
+                            <div class="tags">
+                                <span class="tag improvement">Improvement</span>
+                                <span class="tag priority-medium">Priority: Medium</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kanban-column">
+                    <h2>IN DEVELOPMENT</h2>
+                    <div class="kanban-cards">
+                        <div class="kanban-card">
+                            <h3>HARPR-98: Zendesk attachment bug</h3>
+                            <p>Attachments from Zendesk are not consistently transferring to Jira. Fix in progress by Dev Team A.</p>
+                            <div class="tags">
+                                <span class="tag bug">Bug</span>
+                                <span class="tag priority-high">Priority: High</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kanban-column">
+                    <h2>DONE</h2>
+                    <div class="kanban-cards">
+                        <div class="kanban-card">
+                            <h3>HARPR-95: User role permissions fix</h3>
+                            <p>Resolved an issue where certain users had incorrect permissions after a recent update.</p>
+                            <div class="tags">
+                                <span class="tag improvement">Improvement</span>
+                                <span class="tag priority-low">Priority: Low</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Minimal JavaScript - can be extended for drag-and-drop functionality
+        // For static display, no specific JS is required for this view.
+    </script>
+</body>
+</html>
