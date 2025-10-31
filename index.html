@@ -3,96 +3,1382 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to HARPR - Your Mediation Platform</title>
+    <title>HARPR - Customer-to-Product Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
         :root {
-            --primary-blue: #007bff;
-            --secondary-gray: #6c757d;
-            --light-gray: #f8f9fa;
-            --dark-gray: #343a40;
-            --text-color: #212529;
-            --white: #fff;
-            --gradient-start: #007bff;
-            --gradient-end: #0056b3;
+            --primary: #0066FF;
+            --primary-dark: #0052CC;
+            --primary-light: #4D94FF;
+            --secondary: #00C9FF;
+            --accent: #0099FF;
+            --dark: #1A1D29;
+            --dark-alt: #252938;
+            --gray: #6C7293;
+            --light-gray: #F5F7FA;
+            --white: #FFFFFF;
+            --success: #00D68F;
+            --warning: #FFAA00;
+            --danger: #FF3D71;
+            --border: #E4E9F2;
+            --shadow: rgba(26, 29, 41, 0.1);
+            --shadow-lg: rgba(26, 29, 41, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
-            color: var(--white);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: var(--light-gray);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Landing Page Styles */
+        .landing-page {
             min-height: 100vh;
+            background: linear-gradient(135deg, #0066FF 0%, #00C9FF 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .landing-page.hidden {
+            display: none;
+        }
+
+        .landing-page::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -200px;
+            right: -200px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .landing-page::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            bottom: -100px;
+            left: -100px;
+            animation: float 6s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .landing-content {
             text-align: center;
-        }
-
-        .landing-container {
-            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
-            backdrop-filter: blur(10px); /* Frosted glass effect */
-            border-radius: 15px;
-            padding: 50px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            max-width: 800px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .landing-container h1 {
-            font-size: 4em;
-            font-weight: 800;
-            margin-bottom: 20px;
             color: var(--white);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            z-index: 1;
+            padding: 40px;
+            max-width: 900px;
+            animation: fadeInUp 1s ease-out;
         }
 
-        .landing-container h2 {
-            font-size: 2.5em;
-            font-weight: 600;
-            margin-bottom: 30px;
-            color: var(--light-gray);
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .landing-container p {
-            font-size: 1.2em;
-            line-height: 1.7;
-            margin-bottom: 40px;
-            color: rgba(255, 255, 255, 0.9);
+        .landing-content h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            letter-spacing: -2px;
+        }
+
+        .landing-content h2 {
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .landing-content p {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            line-height: 1.8;
         }
 
         .btn-explore {
             display: inline-block;
-            padding: 15px 40px;
-            background-color: var(--white);
-            color: var(--primary-blue);
+            padding: 18px 50px;
+            background: var(--white);
+            color: var(--primary);
             text-decoration: none;
-            font-size: 1.4em;
+            font-size: 1.2rem;
             font-weight: 700;
             border-radius: 50px;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-explore::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-explore:hover::before {
+            left: 100%;
         }
 
         .btn-explore:hover {
-            background-color: #e2e6ea; /* Slightly darker white */
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* App Container */
+        .app-container {
+            display: none;
+            min-height: 100vh;
+            background: var(--light-gray);
+        }
+
+        .app-container.active {
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: var(--dark);
+            color: var(--white);
+            padding: 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .logo {
+            padding: 30px 25px;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--white);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--primary-light);
+        }
+
+        .sidebar nav {
+            padding: 20px 0;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+        }
+
+        .sidebar nav ul li {
+            margin: 5px 0;
+        }
+
+        .sidebar nav ul li a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .sidebar nav ul li a i {
+            margin-right: 15px;
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar nav ul li a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--primary);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar nav ul li a:hover,
+        .sidebar nav ul li a.active {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar nav ul li a.active::before {
+            transform: scaleY(1);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 30px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: var(--white);
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px var(--shadow);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .user-profile i {
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        /* Dashboard Styles */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px var(--shadow-lg);
+        }
+
+        .metric-card h3 {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .metric-unit {
+            font-size: 18px;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 25px;
+        }
+
+        .chart-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        .chart-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 25px;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 200px;
+            gap: 20px;
+            padding: 10px;
+        }
+
+        .bar-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bar {
+            width: 100%;
+            background: linear-gradient(to top, var(--primary), var(--primary-light));
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 -2px 10px rgba(0, 102, 255, 0.2);
+        }
+
+        .bar:hover {
+            filter: brightness(1.1);
+            transform: scaleY(1.05);
+        }
+
+        .bar-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray);
+            text-align: center;
+        }
+
+        /* Kanban Board */
+        .kanban-board {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .kanban-column {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        .kanban-column h2 {
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--dark);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary);
+            letter-spacing: 0.5px;
+        }
+
+        .kanban-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .kanban-cards::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .kanban-cards::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .kanban-card {
+            background: var(--light-gray);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .kanban-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .kanban-card h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .kanban-card p {
+            font-size: 13px;
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tag.bug { background: var(--danger); color: var(--white); }
+        .tag.feature { background: var(--success); color: var(--white); }
+        .tag.improvement { background: var(--warning); color: var(--dark); }
+        .tag.priority-high { background: #FF6B6B; color: var(--white); }
+        .tag.priority-medium { background: var(--primary); color: var(--white); }
+        .tag.priority-low { background: var(--success); color: var(--white); }
+
+        /* Form Styles */
+        .form-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px var(--shadow);
+            margin-bottom: 25px;
+        }
+
+        .form-section h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .form-group .display-value {
+            padding: 15px;
+            background: var(--light-gray);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 120px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--gray);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--dark-alt);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        /* Table Styles */
+        .table-container {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 2px 10px var(--shadow);
+            overflow: hidden;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background: var(--dark);
+            color: var(--white);
+            padding: 18px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+            color: var(--dark);
+        }
+
+        .data-table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--light-gray);
+        }
+
+        .btn-action {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-approve {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn-approve:hover {
+            background: #00B87C;
+            transform: translateY(-2px);
+        }
+
+        .btn-reject {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .btn-reject:hover {
+            background: #E6335E;
+            transform: translateY(-2px);
+        }
+
+        .btn-review {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-review:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Settings Page */
+        .integration-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 25px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s ease;
+        }
+
+        .integration-item:hover {
+            background: var(--light-gray);
+        }
+
+        .integration-item:last-child {
+            border-bottom: none;
+        }
+
+        .integration-details {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .integration-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: var(--light-gray);
+        }
+
+        .integration-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .integration-info p {
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-right: 10px;
+        }
+
+        .status-connected {
+            background: rgba(0, 214, 143, 0.1);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(255, 170, 0, 0.1);
+            color: var(--warning);
+        }
+
+        .status-disconnected {
+            background: rgba(255, 61, 113, 0.1);
+            color: var(--danger);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .sidebar nav ul li a span {
+                display: none;
+            }
+
+            .logo {
+                font-size: 20px;
+                justify-content: center;
+            }
+
+            .logo span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+            }
+
+            .landing-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Time Range Selector */
+        .time-range {
+            padding: 10px 20px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--white);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .time-range:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .filter-bar input {
+            padding: 10px 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            min-width: 200px;
+        }
+
+        .filter-bar input:focus {
+            outline: none;
+            border-color: var(--primary);
         }
     </style>
 </head>
 <body>
-    <div class="landing-container">
-        <h1>Welcome to HARPR!</h1>
-        <h2>Your Customer-to-Product Platform</h2>
-        <p>
-            HARPR bridges the gap between your customer-facing teams and product development, ensuring
-            no critical context is lost. Streamline feedback, accelerate issue resolution,
-            and build products your customers truly love.
-        </p>
-        <a href="backlog.html" class="btn-explore">Explore Now</a>
+    <!-- Landing Page -->
+    <div class="landing-page" id="landing">
+        <div class="landing-content">
+            <h1>Welcome to HARPR!</h1>
+            <h2>Your Customer-to-Product Platform</h2>
+            <p>
+                HARPR bridges the gap between your customer-facing teams and product development, ensuring
+                no critical context is lost. Streamline feedback, accelerate issue resolution,
+                and build products your customers truly love.
+            </p>
+            <button class="btn-explore" id="exploreBtn">Explore Now</button>
+        </div>
     </div>
+
+    <!-- Main App -->
+    <div class="app-container" id="app">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+                <span>HARPR</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a class="nav-link active" data-page="dashboard">
+                        <i class="fas fa-th-large"></i>
+                        <span>Dashboard</span>
+                    </a></li>
+                    <li><a class="nav-link" data-page="escalate">
+                        <i class="fas fa-share-square"></i>
+                        <span>Escalate</span>
+                    </a></li>
+                    <li><a class="nav-link" data-page="backlog">
+                        <i class="fas fa-tasks"></i>
+                        <span>Backlog</span>
+                    </a></li>
+                    <li><a class="nav-link" data-page="validation">
+                        <i class="fas fa-check-square"></i>
+                        <span>Validation Queue</span>
+                    </a></li>
+                    <li><a class="nav-link" data-page="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Dashboard Page -->
+            <div class="page active" id="dashboard">
+                <div class="header">
+                    <h1>Analytics Dashboard</h1>
+                    <select class="time-range">
+                        <option value="last30days">Last 30 Days</option>
+                        <option value="last7days">Last 7 Days</option>
+                        <option value="thismonth">This Month</option>
+                        <option value="lastmonth">Last Month</option>
+                    </select>
+                </div>
+
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <h3>Escalations Processed</h3>
+                        <div class="metric-value">85</div>
+                        <div class="metric-unit">This Month</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Average Resolution Time</h3>
+                        <div class="metric-value">3.2</div>
+                        <div class="metric-unit">Days</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>Validation Rejection Rate</h3>
+                        <div class="metric-value">12</div>
+                        <div class="metric-unit">%</div>
+                    </div>
+                </div>
+
+                <div class="chart-grid">
+                    <div class="chart-card">
+                        <h3>Escalations by Priority</h3>
+                        <div class="bar-chart">
+                            <div class="bar-item">
+                                <div class="bar" style="height: 45%;"></div>
+                                <div class="bar-label">High</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar" style="height: 75%;"></div>
+                                <div class="bar-label">Medium</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar" style="height: 60%;"></div>
+                                <div class="bar-label">Low</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Resolution Trend</h3>
+                        <div class="bar-chart">
+                            <div class="bar-item">
+                                <div class="bar" style="height: 50%;"></div>
+                                <div class="bar-label">Week 1</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar" style="height: 70%;"></div>
+                                <div class="bar-label">Week 2</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar" style="height: 65%;"></div>
+                                <div class="bar-label">Week 3</div>
+                            </div>
+                            <div class="bar-item">
+                                <div class="bar" style="height: 85%;"></div>
+                                <div class="bar-label">Week 4</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Escalate Page -->
+            <div class="page" id="escalate">
+                <div class="header">
+                    <h1>Escalate Zendesk Ticket #12345</h1>
+                    <div class="user-profile">
+                        <i class="fas fa-user-circle"></i>
+                        <span>John Doe</span>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Original Zendesk Ticket Details</h2>
+                    <div class="form-group">
+                        <label>Subject:</label>
+                        <div class="display-value">Login issue on Chrome</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Requester:</label>
+                        <div class="display-value">John Doe (john.doe@example.com)</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Original Description:</label>
+                        <div class="display-value">Users are reporting that they cannot log in using Chrome browser. It works fine on Firefox and Safari. This appears to be affecting approximately 15% of our user base.</div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Additional Context for Product Team</h2>
+                    <div class="form-group">
+                        <label for="internal-notes">Internal Notes:</label>
+                        <textarea id="internal-notes" placeholder="Add additional context, steps to reproduce, or observations here..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-secondary cancel-btn">Cancel</button>
+                        <button class="btn btn-primary submit-escalation">Submit for Validation</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Backlog Page -->
+            <div class="page" id="backlog">
+                <div class="header">
+                    <h1>Product Backlog: HARPR</h1>
+                    <div class="user-profile">
+                        <i class="fas fa-user-circle"></i>
+                        <span>John Doe</span>
+                    </div>
+                </div>
+
+                <div class="kanban-board">
+                    <div class="kanban-column">
+                        <h2>TO DO</h2>
+                        <div class="kanban-cards">
+                            <div class="kanban-card">
+                                <h3>HARPR-101: Login issue on Chrome</h3>
+                                <p>Users cannot log in via Chrome browser. Affects 15% of users. Logs attached from Zendesk ticket.</p>
+                                <div class="tags">
+                                    <span class="tag bug">Bug</span>
+                                    <span class="tag priority-high">Priority: High</span>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <h3>HARPR-102: New user onboarding feedback</h3>
+                                <p>Feedback from 3 recent calls indicates confusion on step 3 of onboarding process. Suggested UX changes provided.</p>
+                                <div class="tags">
+                                    <span class="tag feature">Feature</span>
+                                    <span class="tag priority-medium">Priority: Medium</span>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <h3>HARPR-103: API integration failure after update</h3>
+                                <p>Specific external API integration is failing for enterprise client X after recent platform update. Urgent.</p>
+                                <div class="tags">
+                                    <span class="tag bug">Bug</span>
+                                    <span class="tag priority-high">Priority: High</span>
+                                </div>
+                            </div>
+                            <div class="kanban-card">
+                                <h3>HARPR-104: Improve dashboard loading time</h3>
+                                <p>Managers report dashboard takes over 5 seconds to load. Investigate and optimize queries.</p>
+                                <div class="tags">
+                                    <span class="tag improvement">Improvement</span>
+                                    <span class="tag priority-medium">Priority: Medium</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kanban-column">
+                        <h2>IN DEVELOPMENT</h2>
+                        <div class="kanban-cards">
+                            <div class="kanban-card">
+                                <h3>HARPR-98: Zendesk attachment bug</h3>
+                                <p>Attachments from Zendesk are not consistently transferring to Jira. Fix in progress by Dev Team A.</p>
+                                <div class="tags">
+                                    <span class="tag bug">Bug</span>
+                                    <span class="tag priority-high">Priority: High</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kanban-column">
+                        <h2>DONE</h2>
+                        <div class="kanban-cards">
+                            <div class="kanban-card">
+                                <h3>HARPR-95: User role permissions fix</h3>
+                                <p>Resolved an issue where certain users had incorrect permissions after a recent update.</p>
+                                <div class="tags">
+                                    <span class="tag improvement">Improvement</span>
+                                    <span class="tag priority-low">Priority: Low</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Validation Queue Page -->
+            <div class="page" id="validation">
+                <div class="header">
+                    <h1>Escalation Validation Queue</h1>
+                    <div class="user-profile">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Jane Smith</span>
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <input type="text" placeholder="Search by ticket ID or subject..." id="searchInput">
+                    <select class="time-range">
+                        <option value="all">All Priorities</option>
+                        <option value="high">High Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="low">Low Priority</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>Subject</th>
+                                <th>Submitted By</th>
+                                <th>Date</th>
+                                <th>Priority</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Z-9876</td>
+                                <td>User unable to reset password</td>
+                                <td>Rajesh K.</td>
+                                <td>2h ago</td>
+                                <td><span class="tag priority-high">High</span></td>
+                                <td>
+                                    <button class="btn-action btn-review">Review</button>
+                                    <button class="btn-action btn-approve">Approve</button>
+                                    <button class="btn-action btn-reject">Reject</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>HARPR-1074</td>
+                                <td>Feature request: Dark Mode feedback</td>
+                                <td>Priya S.</td>
+                                <td>3h ago</td>
+                                <td><span class="tag priority-medium">Medium</span></td>
+                                <td>
+                                    <button class="btn-action btn-review">Review</button>
+                                    <button class="btn-action btn-approve">Approve</button>
+                                    <button class="btn-action btn-reject">Reject</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Z-1002</td>
+                                <td>API key expired error</td>
+                                <td>David L.</td>
+                                <td>1 day ago</td>
+                                <td><span class="tag priority-high">High</span></td>
+                                <td>
+                                    <button class="btn-action btn-review">Review</button>
+                                    <button class="btn-action btn-approve">Approve</button>
+                                    <button class="btn-action btn-reject">Reject</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Z-1973</td>
+                                <td>Login page UI glitch</td>
+                                <td>Mei L.</td>
+                                <td>2 days ago</td>
+                                <td><span class="tag priority-low">Low</span></td>
+                                <td>
+                                    <button class="btn-action btn-review">Review</button>
+                                    <button class="btn-action btn-approve">Approve</button>
+                                    <button class="btn-action btn-reject">Reject</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>HARPR-1080</td>
+                                <td>New user onboarding feedback</td>
+                                <td>Rajesh K.</td>
+                                <td>2h ago</td>
+                                <td><span class="tag priority-medium">Medium</span></td>
+                                <td>
+                                    <button class="btn-action btn-review">Review</button>
+                                    <button class="btn-action btn-approve">Approve</button>
+                                    <button class="btn-action btn-reject">Reject</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div class="page" id="settings">
+                <div class="header">
+                    <h1>Settings</h1>
+                    <div class="user-profile">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Admin User</span>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Integrations</h2>
+                    <div class="integration-item">
+                        <div class="integration-details">
+                            <div class="integration-icon">
+                                <i class="fab fa-zendesk" style="color: #03363D;"></i>
+                            </div>
+                            <div class="integration-info">
+                                <h3>Zendesk</h3>
+                                <p>Connect your Zendesk account to receive tickets.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="status-badge status-connected"><i class="fas fa-check-circle"></i> Connected</span>
+                            <button class="btn btn-secondary disconnect-btn">Disconnect</button>
+                        </div>
+                    </div>
+                    <div class="integration-item">
+                        <div class="integration-details">
+                            <div class="integration-icon">
+                                <i class="fab fa-jira" style="color: #0052CC;"></i>
+                            </div>
+                            <div class="integration-info">
+                                <h3>Jira</h3>
+                                <p>Connect your Jira instance to create issues.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="status-badge status-pending"><i class="fas fa-hourglass-half"></i> Pending Setup</span>
+                            <button class="btn btn-primary connect-btn">Connect</button>
+                        </div>
+                    </div>
+                    <div class="integration-item">
+                        <div class="integration-details">
+                            <div class="integration-icon">
+                                <i class="fab fa-slack" style="color: #4A154B;"></i>
+                            </div>
+                            <div class="integration-info">
+                                <h3>Slack</h3>
+                                <p>Receive notifications for critical escalations.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="status-badge status-disconnected"><i class="fas fa-exclamation-triangle"></i> Not Connected</span>
+                            <button class="btn btn-primary connect-btn">Connect</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Account Settings</h2>
+                    <div class="integration-item">
+                        <div class="integration-details">
+                            <div class="integration-icon">
+                                <i class="fas fa-user-circle" style="color: var(--primary);"></i>
+                            </div>
+                            <div class="integration-info">
+                                <h3>Profile</h3>
+                                <p>Manage your personal information and password.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Show app function
+        document.getElementById('exploreBtn').addEventListener('click', function() {
+            document.getElementById('landing').classList.add('hidden');
+            document.getElementById('app').classList.add('active');
+        });
+
+        // Navigation function
+        function showPage(pageName) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageName).classList.add('active');
+            
+            // Update navigation active state
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+            document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
+        }
+
+        // Add click listeners to navigation links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageName = this.getAttribute('data-page');
+                showPage(pageName);
+            });
+        });
+
+        // Cancel button functionality
+        document.querySelectorAll('.cancel-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                showPage('dashboard');
+            });
+        });
+
+        // Submit escalation
+        document.querySelector('.submit-escalation')?.addEventListener('click', function() {
+            const notes = document.getElementById('internal-notes').value;
+            if (notes.trim() === '') {
+                alert('Please add internal notes before submitting.');
+                return;
+            }
+            alert('Escalation submitted for validation!');
+            document.getElementById('internal-notes').value = '';
+            showPage('validation');
+        });
+
+        // Validation queue buttons
+        document.querySelectorAll('.btn-review').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const row = this.closest('tr');
+                const ticketId = row.cells[0].textContent;
+                alert(`Reviewing Ticket ID: ${ticketId}\n\nIn a full application, this would open a detailed review modal.`);
+            });
+        });
+
+        document.querySelectorAll('.btn-approve').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const row = this.closest('tr');
+                const ticketId = row.cells[0].textContent;
+                if (confirm(`Are you sure you want to approve Ticket ID: ${ticketId}?`)) {
+                    alert('Ticket approved and moved to backlog!');
+                    row.style.transition = 'opacity 0.3s';
+                    row.style.opacity = '0';
+                    setTimeout(() => row.remove(), 300);
+                }
+            });
+        });
+
+        document.querySelectorAll('.btn-reject').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const row = this.closest('tr');
+                const ticketId = row.cells[0].textContent;
+                const reason = prompt(`Please provide a reason for rejecting Ticket ID: ${ticketId}:`);
+                if (reason && reason.trim() !== '') {
+                    alert(`Ticket rejected with reason: ${reason}`);
+                    row.style.transition = 'opacity 0.3s';
+                    row.style.opacity = '0';
+                    setTimeout(() => row.remove(), 300);
+                }
+            });
+        });
+
+        // Settings page buttons
+        document.querySelectorAll('.disconnect-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to disconnect this integration?')) {
+                    alert('Integration disconnected successfully!');
+                }
+            });
+        });
+
+        document.querySelectorAll('.connect-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                alert('Connecting integration...\n\nIn a full application, this would open an OAuth flow or configuration wizard.');
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const rows = document.querySelectorAll('.data-table tbody tr');
+                
+                rows.forEach(row => {
+                    const ticketId = row.cells[0].textContent.toLowerCase();
+                    const subject = row.cells[1].textContent.toLowerCase();
+                    
+                    if (ticketId.includes(searchTerm) || subject.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Add smooth scroll behavior
+        document.documentElement.style.scrollBehavior = 'smooth';
+    </script>
 </body>
 </html>
